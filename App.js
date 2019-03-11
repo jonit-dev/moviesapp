@@ -2,9 +2,10 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import React, {Component} from 'react';
 import {View, Text} from 'react-native';
 import {createBottomTabNavigator, createAppContainer} from "react-navigation";
-import Home from "./src/pages/Home";
-import About from "./src/pages/About";
+import Home from "./src/components/pages/Home";
+import About from "./src/components/pages/About";
 import HomeIconWithBadge from "./src/components/common/HomeIconWithBadge";
+import NowPlaying from "./src/components/pages/NowPlaying/NowPlaying";
 
 class App extends Component {
 
@@ -12,15 +13,13 @@ class App extends Component {
 
     render() {
         return (
-            <View>
-                <Text> This is my app</Text>
-            </View>
+            <View></View>
         );
     }
 }
 
 const TabNavigator = createBottomTabNavigator({
-        Home: Home,
+        NowPlaying: NowPlaying,
         About: About
     },
     {
@@ -29,12 +28,12 @@ const TabNavigator = createBottomTabNavigator({
                 const {routeName} = navigation.state;
                 let IconComponent = Ionicons;
                 let iconName;
-                if (routeName === 'Home') {
+                if (routeName === 'NowPlaying') {
                     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
                     // Sometimes we want to add badges to some icons.
                     // You can check the implementation below.
                     IconComponent = HomeIconWithBadge;
-                } else if (routeName === 'Settings') {
+                } else if (routeName === 'About') {
                     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
                     IconComponent = HomeIconWithBadge;
                 }
