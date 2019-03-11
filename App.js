@@ -6,6 +6,8 @@ import Home from "./src/components/pages/Home";
 import About from "./src/components/pages/About";
 import HomeIconWithBadge from "./src/components/common/HomeIconWithBadge";
 import NowPlaying from "./src/components/pages/NowPlaying/NowPlaying";
+import MovieList from "./src/components/pages/MovieList/MovieList";
+
 
 class App extends Component {
 
@@ -20,7 +22,8 @@ class App extends Component {
 
 const TabNavigator = createBottomTabNavigator({
         NowPlaying: NowPlaying,
-        About: About
+        MovieList: MovieList
+
     },
     {
         defaultNavigationOptions: ({navigation}) => ({
@@ -33,7 +36,7 @@ const TabNavigator = createBottomTabNavigator({
                     // Sometimes we want to add badges to some icons.
                     // You can check the implementation below.
                     IconComponent = HomeIconWithBadge;
-                } else if (routeName === 'About') {
+                } else if (routeName === 'MovieList') {
                     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
                     IconComponent = HomeIconWithBadge;
                 }
