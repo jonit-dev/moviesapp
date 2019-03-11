@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
-import {Container, Header, Left, Body, Right, Button, Icon, Title, Segment, Content, Text} from 'native-base';
-
+import {Container, Header, Left, Body, Right, List, Button, Icon, Title, Segment, Content, Text, Spinner} from 'native-base';
+import Constants from '../../../classes/Constants';
+import MovieAvatar from "./MovieAvatar";
+import axios from 'axios';
 
 export default class MovieList extends Component {
 
@@ -10,10 +12,10 @@ export default class MovieList extends Component {
         title: 'Movie List',
     };
 
-    componentDidLoad() {
+    componentDidMount() {
 
         //lets load our inital popular movies
-        this.onFetchMovies('popular')
+        this.onFetchMovies('popular');
 
 
     }
@@ -24,41 +26,38 @@ export default class MovieList extends Component {
 
 
     onFetchMovies = async (type) => {
+        console.log(`Fetching ${type} movies data...`);
+        const response = await axios.get(`${Constants.get().apiUrl}/movie/${type}?api_key=${Constants.get().apiKey}&language=en-CA&page=1`);
+        let movies = response.data.results;
 
-        switch (type) {
-            case 'popular':
+        console.log(movies);
 
-                const response = await axios.get('url', {
-                    params: params,
-                    headers: {
-                        Authorization: 'authorization'
-                    }
-                });
-
-
-
-                break;
-            case 'top_rated':
-                break;
-            case 'upcoming':
-                break;
-        }
-
-
+        this.setState({movies});
 
 
     };
+
+    onRenderMovies() {
+
+        if (this.state.movies.length > 0) {
+            return this.state.movies.map((movie) => <MovieAvatar key={movie.id} title={movie.title}
+                                                                 subtitle={movie.popularity} vote={movie.vote_average}
+                                                                 imageUrl={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>);
+        }
+
+
+    }
 
 
     renderContent(segment) {
 
         switch (segment) {
             case 1:
-                return <Text>popular movies here</Text>;
+                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() : <Spinner  color='blue'/>}</List></Content>;
             case 2:
-                return <Text>top rated movies here</Text>;
+                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() : <Spinner color='blue'/>}</List></Content>;
             case 3:
-                return <Text>Upcoming movies here</Text>
+                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() : <Spinner color='blue'/>}</List></Content>
         }
 
 
@@ -82,13 +81,25 @@ export default class MovieList extends Component {
                     </Right>
                 </Header>
                 <Segment>
-                    <Button first active={this.state.selected === 1} onPress={() => this.setState({selected: 1})}>
+                    <Button first active={this.state.selected === 1} onPress={() => {
+                        this.setState({selected: 1, movies: []});
+                        //lets load our inital popular movies
+
+                        this.onFetchMovies('popular');
+
+                    }}>
                         <Text>Popular</Text>
                     </Button>
-                    <Button active={this.state.selected === 2} onPress={() => this.setState({selected: 2})}>
+                    <Button active={this.state.selected === 2} onPress={() => {
+                        this.setState({selected: 2, movies: []});
+                        this.onFetchMovies('top_rated');
+                    }}>
                         <Text>Top Rated</Text>
                     </Button>
-                    <Button last active={this.state.selected === 3} onPress={() => this.setState({selected: 3})}>
+                    <Button last active={this.state.selected === 3} onPress={() => {
+                        this.setState({selected: 3, movies: []});
+                        this.onFetchMovies('upcoming');
+                    }}>
                         <Text>Upcoming</Text>
                     </Button>
                 </Segment>
