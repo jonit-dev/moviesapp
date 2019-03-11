@@ -1,5 +1,19 @@
 import React, {Component} from 'react';
-import {Container, Header, Left, Body, Right, List, Button, Icon, Title, Segment, Content, Text, Spinner} from 'native-base';
+import {
+    Container,
+    Header,
+    Left,
+    Body,
+    Right,
+    List,
+    Button,
+    Icon,
+    Title,
+    Segment,
+    Content,
+    Text,
+    Spinner
+} from 'native-base';
 import Constants from '../../../classes/Constants';
 import MovieAvatar from "./MovieAvatar";
 import axios from 'axios';
@@ -40,9 +54,16 @@ export default class MovieList extends Component {
     onRenderMovies() {
 
         if (this.state.movies.length > 0) {
-            return this.state.movies.map((movie) => <MovieAvatar key={movie.id} title={movie.title}
-                                                                 subtitle={movie.popularity} vote={movie.vote_average}
-                                                                 imageUrl={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>);
+            let i = 0;
+            return this.state.movies.map((movie) => {
+                if (i < 10) {
+                    i++;
+                    return <MovieAvatar key={movie.id} title={movie.title}
+                                 subtitle={movie.popularity} vote={movie.vote_average}
+                                 imageUrl={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>;
+
+                }
+            });
         }
 
 
@@ -53,11 +74,14 @@ export default class MovieList extends Component {
 
         switch (segment) {
             case 1:
-                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() : <Spinner  color='blue'/>}</List></Content>;
+                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() :
+                    <Spinner color='blue'/>}</List></Content>;
             case 2:
-                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() : <Spinner color='blue'/>}</List></Content>;
+                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() :
+                    <Spinner color='blue'/>}</List></Content>;
             case 3:
-                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() : <Spinner color='blue'/>}</List></Content>
+                return <Content padder><List>{this.onRenderMovies() ? this.onRenderMovies() :
+                    <Spinner color='blue'/>}</List></Content>
         }
 
 
@@ -68,11 +92,11 @@ export default class MovieList extends Component {
         return (
             <Container>
                 <Header hasSegment>
-                    <Left>
-                        <Button transparent>
-                            <Icon name="arrow-back"/>
-                        </Button>
-                    </Left>
+                    {/*<Left>*/}
+                        {/*<Button transparent>*/}
+                            {/*<Icon name="arrow-back"/>*/}
+                        {/*</Button>*/}
+                    {/*</Left>*/}
                     <Body style={{flex: 3, justifyContent: 'center'}}>
                     <Title style={{color: '#fff', alignSelf: 'center'}}>Movie Lists</Title>
                     </Body>

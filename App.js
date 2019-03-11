@@ -7,6 +7,7 @@ import About from "./src/components/pages/About";
 import HomeIconWithBadge from "./src/components/common/HomeIconWithBadge";
 import NowPlaying from "./src/components/pages/NowPlaying/NowPlaying";
 import MovieList from "./src/components/pages/MovieList/MovieList";
+import Search from "./src/components/pages/Search/Search";
 
 
 class App extends Component {
@@ -22,7 +23,8 @@ class App extends Component {
 
 const TabNavigator = createBottomTabNavigator({
         NowPlaying: NowPlaying,
-        MovieList: MovieList
+        MovieList: MovieList,
+        Search: Search
 
     },
     {
@@ -40,6 +42,11 @@ const TabNavigator = createBottomTabNavigator({
                     iconName = `ios-information-circle${focused ? '' : '-outline'}`;
                     IconComponent = HomeIconWithBadge;
                 }
+                else if (routeName === 'Search') {
+                    iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+                    IconComponent = HomeIconWithBadge;
+                }
+
 
                 // You can return any component that you like here!
                 return <IconComponent name={iconName} size={25} color={tintColor}/>;
