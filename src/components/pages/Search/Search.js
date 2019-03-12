@@ -16,6 +16,8 @@ import {
 import Constants from '../../../classes/Constants';
 import MovieAvatar from "../MovieList/MovieAvatar";
 import axios from "axios";
+import PeopleMovieAvatar from "./PeopleMovieAvatar";
+import TvAvatar from "./TvAvatar";
 
 
 export default class Search extends Component {
@@ -44,16 +46,50 @@ export default class Search extends Component {
     }
 
 
-    onRenderMovies() {
+    onRenderResources() {
 
         if (this.state.movies.length > 0) {
             let i = 0;
-            return this.state.movies.map((movie) => {
+            return this.state.movies.map((resource) => {
                 if (i < 10) {
                     i++;
-                    return <MovieAvatar key={movie.id} title={movie.title}
-                                        subtitle={movie.popularity} vote={movie.vote_average}
-                                        imageUrl={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>;
+                    switch(this.state.scope) {
+                        case 'tv':
+
+                            return <TvAvatar key={resource.id}
+                                             name={resource.name}
+                                             popularity={resource.popularity}
+                                             voteAvg={resource.vote_average}
+                                                showImage={`https://image.tmdb.org/t/p/original/${resource.poster_path}`}/>;
+
+                        case 'movie':
+                            return <MovieAvatar key={resource.id} title={resource.title}
+                                                subtitle={resource.popularity} vote={resource.vote_average}
+                                                imageUrl={`https://image.tmdb.org/t/p/original/${resource.poster_path}`}/>;
+                        case 'person':
+
+                            let peopleMovies = resource.known_for;
+                            console.log("Know for movies...");
+                            console.log(peopleMovies);
+                            let peopleName = resource.name;
+
+
+                            return peopleMovies.map((movie) => {
+
+                                if(movie.title && peopleName){
+                                    return <PeopleMovieAvatar
+                                        key={movie.id}
+                                        movieName={movie.title}
+                                        peopleName={peopleName}
+                                        voteAvg={movie.vote_average}
+                                        movieImage={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>;
+                                }
+
+
+                            });
+                    }
+
+
 
                 }
             });
@@ -64,7 +100,7 @@ export default class Search extends Component {
 
     }
 
-    onFetchMovies = async (type, query) => {
+    onFetchContent = async (type, query) => {
         console.log(`Fetching type: ${type} movies data using as query: ${query}`);
         let requestUrl = `${Constants.get().apiUrl}/search/${type}?api_key=${Constants.get().apiKey}&query=${query}&language=en-CA&page=1`;
         console.log(requestUrl);
@@ -82,7 +118,7 @@ export default class Search extends Component {
         console.log("submitted search");
         this.setState({movies: []}); //refresh movies
 
-        this.onFetchMovies(this.state.scope, this.state.keyword);
+        this.onFetchContent(this.state.scope, this.state.keyword);
     }
 
 
@@ -90,11 +126,11 @@ export default class Search extends Component {
 
         switch (segment) {
             case 1:
-                return <Content padder><List>{this.onRenderMovies()}</List></Content>;
+                return <Content padder><List>{this.onRenderResources()}</List></Content>;
             case 2:
-                return <Content padder><List>{this.onRenderMovies()}</List></Content>;
+                return <Content padder><List>{this.onRenderResources()}</List></Content>;
             case 3:
-                return <Content padder><List>{this.onRenderMovies()}</List></Content>;
+                return <Content padder><List>{this.onRenderResources()}</List></Content>;
         }
 
 
@@ -122,8 +158,6 @@ export default class Search extends Component {
                     <Button first active={this.state.selected === 1} onPress={() => {
                         this.setState({selected: 1, movies: [], scope: "movie"});
                         //lets load our inital popular movies
-
-
                     }}>
                         <Text>Movies</Text>
                     </Button>
