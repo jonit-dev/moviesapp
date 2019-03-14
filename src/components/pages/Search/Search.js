@@ -53,18 +53,20 @@ export default class Search extends Component {
             return this.state.movies.map((resource) => {
                 if (i < 10) {
                     i++;
-                    switch(this.state.scope) {
+                    switch (this.state.scope) {
                         case 'tv':
 
                             return <TvAvatar key={resource.id}
                                              name={resource.name}
                                              popularity={resource.popularity}
                                              voteAvg={resource.vote_average}
-                                                showImage={`https://image.tmdb.org/t/p/original/${resource.poster_path}`}/>;
+                                             overview={resource.overview}
+                                             showImage={`https://image.tmdb.org/t/p/original/${resource.poster_path}`}/>;
 
                         case 'movie':
                             return <MovieAvatar key={resource.id} title={resource.title}
                                                 subtitle={resource.popularity} vote={resource.vote_average}
+                                                overview={resource.overview}
                                                 imageUrl={`https://image.tmdb.org/t/p/original/${resource.poster_path}`}/>;
                         case 'person':
 
@@ -76,7 +78,7 @@ export default class Search extends Component {
 
                             return peopleMovies.map((movie) => {
 
-                                if(movie.title && peopleName){
+                                if (movie.title && peopleName) {
                                     return <PeopleMovieAvatar
                                         key={movie.id}
                                         movieName={movie.title}
@@ -88,7 +90,6 @@ export default class Search extends Component {
 
                             });
                     }
-
 
 
                 }
@@ -113,6 +114,17 @@ export default class Search extends Component {
 
 
     };
+
+    renderSearchInfo() {
+
+        if (this.state.keyword && this.state.movies.length > 0) {
+            return <Text style={{padding: 10}}>
+                {`"${this.state.keyword}" is in the following:`}
+            </Text>
+        }
+
+
+    }
 
     onUserSubmittedSearch() {
         console.log("submitted search");
@@ -174,6 +186,9 @@ export default class Search extends Component {
                         <Text>TV Shows</Text>
                     </Button>
                 </Segment>
+
+                {this.renderSearchInfo()}
+
                 {this.renderContent(this.state.selected)}
             </Container>
         );

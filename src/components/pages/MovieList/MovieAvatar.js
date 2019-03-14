@@ -1,27 +1,25 @@
-import React, {Component} from 'react';
-import {ListItem, Left, Body, Right, Thumbnail, Text} from 'native-base';
+import React from 'react';
+import {Text} from 'react-native'
+import {Body, Left, ListItem, Right, Thumbnail} from "native-base";
 
-export default class MovieAvatar extends Component {
+const MovieAvatar = ({imageUrl, title, overview, vote}) => {
 
+    return (
+        <ListItem avatar>
+            <Left>
+                <Thumbnail source={{uri: imageUrl}}/>
+            </Left>
+            <Body>
+            <Text style={{color: 'black', fontWeight: 'bold'}}>{title}</Text>
+            <Text note>{overview.toString().substr(0,50)+'...'}</Text>
+            </Body>
+            <Right>
+                <Text note>{vote}</Text>
+            </Right>
+        </ListItem>
+    );
 
-    render() {
-        return (
+};
 
+export default MovieAvatar;
 
-                        <ListItem avatar>
-                            <Left>
-                                <Thumbnail source={{uri: this.props.imageUrl}}/>
-                            </Left>
-                            <Body>
-                            <Text>{this.props.title}</Text>
-                            <Text note>{this.props.subtitle}</Text>
-                            </Body>
-                            <Right>
-                                <Text note>{this.props.vote}</Text>
-                            </Right>
-                        </ListItem>
-
-
-        );
-    }
-}

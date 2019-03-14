@@ -58,7 +58,7 @@ export default class MovieList extends Component {
             return this.state.movies.map((movie) => {
                 if (i < 10) {
                     i++;
-                    return <MovieAvatar key={movie.id} title={movie.title}
+                    return <MovieAvatar key={movie.id} title={movie.title} overview={movie.overview}
                                  subtitle={movie.popularity} vote={movie.vote_average}
                                  imageUrl={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}/>;
 
@@ -92,11 +92,11 @@ export default class MovieList extends Component {
         return (
             <Container>
                 <Header hasSegment>
-                    {/*<Left>*/}
+                    <Left>
                         {/*<Button transparent>*/}
                             {/*<Icon name="arrow-back"/>*/}
                         {/*</Button>*/}
-                    {/*</Left>*/}
+                    </Left>
                     <Body style={{flex: 3, justifyContent: 'center'}}>
                     <Title style={{color: '#fff', alignSelf: 'center'}}>Movie Lists</Title>
                     </Body>

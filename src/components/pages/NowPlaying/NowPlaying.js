@@ -34,10 +34,13 @@ class NowPlaying extends Component {
     };
 
     onRenderMovies() {
-        let nowPlayingMovies = this.state.movies.map((movie) => <Movie key={movie.id} title={movie.title}
+        let nowPlayingMovies = this.state.movies.map((movie) => <Movie key={movie.id}
+                                                                       title={movie.title}
                                                                        subtitle={movie.original_title}
-                                                                       body={movie.overview}
+                                                                       popularity={movie.popularity}
+                                                                       overview={movie.overview}
                                                                        imageUrl={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
+                                                                       release_date={movie.release_date}
                                                                        votes={movie.vote_average}
                                                                        footer={`Vote average: ${movie.vote_average}`}
                                                                        backdropUrl={`https://image.tmdb.org/t/p/original/${movie.backdrop_path}`}/>);
@@ -61,6 +64,8 @@ class NowPlaying extends Component {
                 </Header>
                 <Content>
                     {this.onRenderMovies()}
+
+
                 </Content>
             </Container>
         );

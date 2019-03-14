@@ -4,6 +4,7 @@ import {
     Container,
     Header,
     Content,
+    H1,
     Card,
     CardItem,
     Thumbnail,
@@ -15,8 +16,13 @@ import {
     Right
 } from 'native-base';
 
-const Movie = ({title, subtitle, imageUrl, body, footer, votes, backdropUrl}) => {
+const Movie = ({title, subtitle, imageUrl, overview, footer, votes, backdropUrl, popularity, release_date}) => {
+
+
+    const {overviewStyles} = styles;
+
     return (
+
 
         <Card>
             <CardItem>
@@ -24,7 +30,7 @@ const Movie = ({title, subtitle, imageUrl, body, footer, votes, backdropUrl}) =>
                     <Thumbnail source={{uri: backdropUrl}}/>
                     <Body>
                     <Text>{title}</Text>
-                    <Text note>{subtitle}</Text>
+                    <Text note>{popularity}</Text>
                     </Body>
                 </Left>
             </CardItem>
@@ -40,18 +46,31 @@ const Movie = ({title, subtitle, imageUrl, body, footer, votes, backdropUrl}) =>
                 </Left>
                 <Body>
                 {/*<Button transparent>*/}
-                    {/*<Icon active name="chatbubbles"/>*/}
-                    {/*<Text>4 Comments</Text>*/}
+                {/*<Icon active name="chatbubbles"/>*/}
+                {/*<Text>4 Comments</Text>*/}
                 {/*</Button>*/}
                 </Body>
-                {/*<Right>*/}
-                    {/*<Text>11h ago</Text>*/}
-                {/*</Right>*/}
+                <Right>
+                <Text>Released on {release_date.toString().split('-').join('/')}</Text>
+                </Right>
             </CardItem>
+
+            <Content style={overviewStyles}>
+                <H1>Overview</H1>
+                <Text>{overview}</Text>
+            </Content>
         </Card>
+
 
     );
 
+
+
+};
+const styles = {
+    overviewStyles: {
+        padding: 10
+    }
 };
 
 
